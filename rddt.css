@@ -1,6 +1,8 @@
 
 rddt {
   position: fixed;
+  margin: 0 !important;
+  padding: 0 !important;
   bottom: 10px;
   left: 10px;
   width: 64px;
@@ -24,8 +26,6 @@ rddt:hover {
   -webkit-box-shadow: 0 0 5px rgba(0,0,0,0.5);
 }
 
-
-
 rddt_alien {
   position: absolute;
   bottom: 0;
@@ -38,12 +38,17 @@ rddt_alien {
   -webkit-transition-duration: 200ms;
 }
 
+
 rddt.loaded:hover rddt_alien {
   height: 30px;
 }
 
 rddt.loaded rddt_alien {
   height: 20px;
+}
+
+rddt.loaded rddt_alien.loading {
+  height: 30px;
 }
 
 rddt.submit {
