@@ -14,3 +14,10 @@ think of the particular page you are viewing.
 
 If it appears as though no one has submitted the page yet, it conveniently
 becomes a link to reddit.com's submission page.
+
+Planned Features
+----------------
+
+* __Multiple Submissions__ – Show a listing of all the discussions associated
+  with given url.
+* __In–Page Submit to Reddit__ – Submit the current page without leaving it
