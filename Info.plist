@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Author</key>
+	<string>Beau Collins</string>
+	<key>CFBundleDisplayName</key>
+	<string>rddt</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.beaucollins.rddt</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleShortVersionString</key>
+	<string>alpha</string>
+	<key>CFBundleVersion</key>
+	<string>0.1</string>
+	<key>Chrome</key>
+	<dict>
+		<key>Global Page</key>
+		<string>rddt.html</string>
+	</dict>
+	<key>Content</key>
+	<dict>
+		<key>Scripts</key>
+		<dict>
+			<key>End</key>
+			<array>
+				<string>rddt_end.js</string>
+			</array>
+		</dict>
+		<key>Stylesheets</key>
+		<array>
+			<string>rddt.css</string>
+		</array>
+	</dict>
+	<key>Description</key>
+	<string>Experimental Reddit Extension</string>
+	<key>ExtensionInfoDictionaryVersion</key>
+	<string>1.0</string>
+	<key>Permissions</key>
+	<dict>
+		<key>Website Access</key>
+		<dict>
+			<key>Level</key>
+			<string>All</string>
+		</dict>
+	</dict>
+	<key>Website</key>
+	<string>http://beaucollins.com/rddt</string>
+</dict>
+</plist>
