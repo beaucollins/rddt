@@ -3,35 +3,7 @@
     <head>
       <meta http-equiv="Content-type" content="text/html; charset=utf-8">
       <title>rddt</title>
-      <script type="text/javascript" charset="utf-8">
-      
-      function rddtRequestData(messageEvent){
-        if (messageEvent.name == "rddt:request"){
-          var request = new XMLHttpRequest();
-          var location = messageEvent.message;
-          request.onreadystatechange = function(xhrEvent){
-            if (request.readyState == 4) {
-              var response_object;
-              if (request.status == 404) {
-                //error
-                messageEvent.target.page.dispatchMessage('rddt:response', false);
-              }else{
-                
-                eval("response_object = " + request.responseText);
-                
-                messageEvent.target.page.dispatchMessage('rddt:response',response_object);
-              };
-            };
-          }
-          
-          request.open("GET", 'http://reddit.com/api/info.json?url=' + location);
-          request.send();
-          
-        };        
-      }
-      
-        safari.application.addEventListener("message", rddtRequestData, false);
-      </script>
+      <script type="text/javascript" charset="utf-8" src="rddt.js"></script>
       
     </head>
     <body>

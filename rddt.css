@@ -1,136 +1,327 @@
+rddt-shim {
+  display: block;
+  height: 48px;
+}
 
-rddt {
+
+* rddt#rddt {
+  line-height: 1.2em !important;
+  font-family: Helvetica !important;
+  font-size: 12px !important;
   position: fixed;
-  margin: 0 !important;
-  padding: 0 !important;
-  bottom: 10px;
-  left: 10px;
-  width: 64px;
-  height: 32px;
-  background: -webkit-gradient(linear, left top, left bottom, from(#CEE3F8), to(#5F99CF));
-  border: 1px solid #5F99CF;
-  opacity: 0;
-  border-radius: 5px;
-  -webkit-box-shadow: none;
-  -webkit-transition-property: opacity, width, -webkit-box-shadow;
-  -webkit-transition-duration: 500ms;
-  z-index: 1500;
-}
-
-rddt.loaded {
-  opacity: 0.5;
-}
-
-rddt:hover {
-  opacity: 1;
-  -webkit-box-shadow: 0 0 5px rgba(0,0,0,0.5);
-}
-
-rddt_alien {
-  position: absolute;
   bottom: 0;
-  left: 2px;
-  width: 27px;
-  height: 0;
-  background: url(images/alien.png);
-  height: 0;
-  -webkit-transition-property: height;
+  left: 0;
+  opacity: 0.5;
+  -webkit-transition-duration: 200ms;
+  z-index: 999999; /* I'm on the top bitches! */
+}
+
+rddt#rddt * {
+  font-family: Helvetica;
+}
+
+* rddt#rddt.loading {
+  opacity: 0.9;
+}
+
+* rddt#rddt:hover {
+  opacity: 1.0;
+}
+
+* rddt#rddt rddt-bar {
+  color: #FFF;
+  display: table-row;
+}
+
+* rddt#rddt .rddt-panel {
+  display: table-cell;
+  text-align: center;
+}
+
+* rddt#rddt rddt-vote-panel {
+  vertical-align: middle;
+  display: table-cell;
+  position: relative;
+  min-width: 40px;
+  text-align: center;
+  min-height: 48px;
+  max-height: 48px;
+  height: 48px;
+}
+
+* rddt#rddt rddt-upvote, * rddt#rddt rddt-downvote {
+  width: 16px;
+  height: 16px;
+  margin: 2px auto !important;
+  border-radius: 1em;
+  background: no-repeat center center;
+  cursor: pointer;
+  -webkit-transition-duration: 200ms;
+  position: relative;
+  z-index: 100;
+  display: block;
+}
+
+* rddt#rddt.loading rddt-upvote, * rddt#rddt.loading rddt-downvote {
+  opacity: 0;
+  cursor: default;
+}
+
+* rddt#rddt rddt-upvote:hover, * rddt#rddt rddt-downvote:hover {
+  background-color: rgba(255,255,255,0.5);
+}
+
+* rddt#rddt rddt-upvote {
+  background-image: url(images/up_off.png);
+}
+
+* rddt#rddt rddt-downvote {
+  background-image: url(images/down_off.png);
+}
+
+/* dark blue gloss */
+* rddt#rddt .rddt-panel {
+  border-left: 1px solid rgba(0,0,0,0.1);
+  min-height: 48px;
+  max-height: 48px;
+  vertical-align: middle;
+  background: -webkit-gradient(linear, 0 0, 0 2, from(rgba(0,0,0,0.5)), to(rgba(0,0,0,0))), /* inner shadow */
+              -webkit-gradient(linear, left top, left bottom, from(#5287B2), to(#1A2B38), color-stop(0.5, #447093), color-stop(0.5, #365A75)), /* blue gloss */
+              #365A75;
+  -webkit-transition-duration: 200ms;
+  -webkit-transition-property: max-width;
+  overflow: hidden;
+}
+
+* rddt#rddt .rddt-panel:nth-child(2) {
+  border-left: none;
+  background: -webkit-gradient(linear, 0 0, 3 0, from(rgba(0,0,0,0.5)), to(rgba(0,0,0,0))),
+              -webkit-gradient(linear, 0 0, 0 2, from(rgba(0,0,0,0.5)), to(rgba(0,0,0,0))),
+              -webkit-gradient(linear, left top, left bottom, from(#5287B2), to(#1A2B38), color-stop(0.5, #447093), color-stop(0.5, #365A75)), /* blue gloss */
+              #365A75;
+  
+}
+
+* rddt#rddt .rddt-panel:last-child {
+  border-top-right-radius: 5px;
+  border-right: none;
+}
+
+/* light blue gloss */
+* rddt#rddt rddt-vote-panel,
+* rddt#rddt rddt-close-bttn:hover {
+  background: -webkit-gradient(linear, 0 0, 0 2, from(rgba(0,0,0,0.5)), to(rgba(0,0,0,0))), /* inner shadow */
+              -webkit-gradient(linear, left top, left bottom, from(#CEE3F6), to(#5E9ACB), color-stop(0.5, #A1C6E5), color-stop(0.5, #81B1D9)),
+              #94BDE0;
+}
+
+/* light blue pressed */
+* rddt#rddt rddt-close-bttn:active {
+  background: -webkit-gradient(linear, 0 0, 0 2, from(rgba(0,0,0,0.5)), to(rgba(0,0,0,0))), /* inner shadow */
+              -webkit-gradient(linear, left top, left bottom, to(#94BDE0), from(#5E9ACB)),
+              #94BDE0;
+}
+
+* rddt#rddt rddt-close-bttn {
+  vertical-align: middle;
+  cursor: pointer;
+  font-weight: bold;
+  color: rgba(255,255,255,0.5);
+  font-size: 14px;
+  overflow: hidden;
+  max-width: 20px;
+  width: 20px;
+  text-align: center;
+  -webkit-transition-property: max-width, color;
   -webkit-transition-duration: 200ms;
 }
 
-
-rddt.loaded:hover rddt_alien {
-  height: 30px;
+* rddt#rddt rddt-close-bttn-padding {
+  display: block;
 }
 
-rddt.loaded rddt_alien {
-  height: 20px;
+* rddt#rddt rddt-close-bttn:hover rddt-close-bttn-padding {
+  color: #FFF;
 }
 
-rddt.loaded rddt_alien.loading {
-  height: 30px;
+* rddt#rddt rddt-close-bttn-padding, * rddt#rddt.off rddt-close-bttn:hover rddt-close-bttn-padding {
+  -webkit-transform: rotate(-180deg);
+  -webkit-transition-duration: 200ms;
 }
 
-rddt.submit {
-  width: 110px;
+* rddt#rddt rddt-close-bttn:hover rddt-close-bttn-padding, * rddt#rddt.off rddt-close-bttn-padding {
+  -webkit-transform: rotate(0deg);
 }
 
-rddt.comments {
-  width: 110px;
+* rddt#rddt.loading rddt-close-bttn {
+  max-width: 0;
+  border: none;
+  padding: 0 !important;
+  display: none;
 }
 
-rddt a, rddt a:link {
-  color: #FFF !important;
-  text-decoration: none !important;
-  border: none !important;
-  opacity: 0 !important;
-  font: 12px Helvetica, Arial, sans-serif !important;
-  text-align: center !important;
-  display: block !important;
-  position: absolute !important;
-  top: 3px;
-  right: 3px;
-  line-height: 26px !important;
-  background: #5F99CF -webkit-gradient(linear, left top, left bottom, from(#5F99CF), to(#1E3041)) !important;
-  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.5) !important;
+* rddt#rddt rddt-score-panel {
+  position: relative;
+  max-width: 100px;
+  -webkit-transition-duration: 200ms;
+  text-shadow: 0 -1px 0 rgba(0,0,0,0.9);
+}
+
+* rddt#rddt.loading rddt-score-panel {
+  min-width: 35px;
+  padding: 0 !important;
+  border-width: 0;
+  border-top-right-radius: 5px;
+}
+
+* rddt#rddt.loading rddt-submission-score {
+  display: none;
+}
+
+* rddt#rddt rddt-submission-score {
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 16px;
+  cursor: default;
+  margin: 0 5px !important;
+  display: block;
+}
+
+* rddt#rddt rddt-submission-info {
+  display: block;
+  text-align: left;
+  text-shadow: 0 -1px 0 rgba(0,0,0,0.9);
+  font-weight: bold;
+  padding: 5px !important;
+  white-space: nowrap;
+  -webkit-transition-duration: 200ms;
+}
+
+* rddt#rddt rddt-submission-info-panel {
+  max-width: 500px;
+  -webkit-transition-duration: 200ms;
+}
+
+* rddt#rddt.off rddt-submission-info, * rddt#rddt.loading rddt-submission-info-panel {
+  opacity: 0;
+}
+
+* rddt#rddt.loading rddt-submission-info-panel, * rddt#rddt.off rddt-submission-info-panel {
+  max-width: 0;
+  border: none;
+}
+
+* rddt#rddt rddt-submission-title {
+  font-size: 12px;
+  padding: 1px 5px !important;
+  overflow: hidden;
+  white-space: nowrap;
+  border-radius: 1em;
+  text-overflow: ellipsis;
   cursor: pointer;
-  border-radius: 5px !important;
-  -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) !important;
-  overflow: hidden !important;
-  -webkit-transition-property: opacity;
-  -webkit-transition-duration: 500ms;
-  -webkit-transition-delay: 500ms;
+  display: block;
 }
 
-rddt a#rddt_submit {
-  width: 72px !important;
+* rddt#rddt rddt-submission-title:hover {
+  background: -webkit-gradient(linear, left top, left bottom, from(#365A75), to(#1A2B38));
 }
 
-rddt a#rddt_comments {
-  background: url(images/bubble.png) no-repeat 5px center, -webkit-gradient(linear, left top, left bottom, from(#5F99CF), to(#1E3041)) !important;
-  text-align: right !important;
-  width: 30px !important;
-  padding-left: 30px !important;
-  padding-right: 5px !important;
-  font-weight: bold !important;
-  font-size: 16px !important;
+* rddt#rddt rddt-submission-title:active {
+  background: -webkit-gradient(linear, left top, left bottom, to(#243F58), from(#1A2B38));
+  -webkit-box-shadow: 0 1px 0 rgba(255,255,255,0.1);
 }
 
-rddt.submit a, rddt.comments a {
-  opacity: 1.0 !important;
+* rddt#rddt rddt-comments {
+  font-weight: bold;
+  border-radius: 1em;
+  padding: 1px 5px !important;
+  margin: 0 5px !important;
+  display: inline-block;
+  font-size: 11px;
+  background: url(images/comments_icon.png) no-repeat 3px center;
+  padding-left: 21px !important;
+  cursor: pointer;
 }
 
-rddt a:hover {
-  color: #FFF !important;
-  text-decoration: none !important;
+* rddt#rddt.loading rddt-comments {
+  display: none;
 }
 
-rddt a:visited {
-  color: #FFF !important;
-  text-decoration: none !important;
-  border: none !important;
+* rddt#rddt rddt-comments:hover {
+  background: url(images/comments_icon.png) no-repeat 3px center,
+              -webkit-gradient(linear, left top, left bottom, from(#25415A), to(#111C25));
+
 }
 
-rddt a:active {
-  color: #0F0;
-  border: none !important;
-  background: -webkit-gradient(linear, left top, left bottom, to(#426A90), from(#1E3041)) !important;
+* rddt#rddt rddt-comments:active {
+  background: url(images/comments_icon.png) no-repeat 3px center,
+              -webkit-gradient(linear, left top, left bottom, to(#25415A), from(#111C25));
+  -webkit-box-shadow: 0 1px 0 rgba(255,255,255,0.1);
 }
 
-rddt a:active#rddt_comments {
-  background: url(images/bubble.png) no-repeat 5px center, -webkit-gradient(linear, left top, left bottom, to(#426A90), from(#1E3041)) !important;
+* rddt#rddt rddt-user {
+  border-radius: 1em;
+  padding: 1px 5px !important;
+  display: inline-block;
+  font-size: 11px;
+  background: url(images/user_icon.png) no-repeat 3px 1px;
+  padding-left: 17px !important;
+  cursor: pointer;
 }
 
+* rddt#rddt rddt-user:hover {
+  background: url(images/user_icon.png) no-repeat 3px 1px,
+              -webkit-gradient(linear, left top, left bottom, from(#25415A), to(#111C25));
 
-rddt_throbber {
+}
+
+* rddt#rddt rddt-user:active {
+  background: url(images/user_icon.png) no-repeat 3px 1px,
+              -webkit-gradient(linear, left top, left bottom, to(#25415A), from(#111C25));
+  -webkit-box-shadow: 0 1px 0 rgba(255,255,255,0.1);
+}
+
+* rddt#rddt rddt-sub {
+  border-radius: 1em;
+  padding: 1px 5px !important;
+  display: inline-block;
+  font-size: 11px;
+  background: url(images/reddit_icon.png) no-repeat 3px 1px;
+  padding-left: 17px !important;
+  cursor: pointer;
+}
+
+* rddt#rddt rddt-sub:hover {
+  background: url(images/reddit_icon.png) no-repeat 3px 1px,
+              -webkit-gradient(linear, left top, left bottom, from(#25415A), to(#111C25));
+
+}
+
+* rddt#rddt rddt-sub:active {
+  background: url(images/reddit_icon.png) no-repeat 3px 1px,
+              -webkit-gradient(linear, left top, left bottom, to(#25415A), from(#111C25));
+  -webkit-box-shadow: 0 1px 0 rgba(255,255,255,0.1);
+}
+
+* rddt#rddt rddt-time {
+  font-size: 11px;
+  display: inline-block;
+  padding: 1px 5px !important;
+  padding-left: 18px !important;
+  background: url(images/time_icon.png) no-repeat 3px 1px;
+  cursor: default;
+}
+
+* rddt#rddt rddt-throbber {
+  position: absolute;
+  top: 13px;
+  left: 8px;
   width: 22px;
   height: 22px;
   background: url(images/throbber.png);
   display: block;
-  position: absolute;
-  top: 5px;
-  left: 37px;
-  opacity: 1;
+  opacity: 0;
+  z-index: 50;
   -webkit-animation-name: spin;
   -webkit-animation-duration: 1s;
   -webkit-animation-iteration-count: infinite;
@@ -139,9 +330,25 @@ rddt_throbber {
   -webkit-transition-duration: 500ms;
 }
 
-rddt_throbber.off {
-  opacity: 0;
+* rddt#rddt.loading rddt-throbber {
+  opacity: 1.0;
 }
+
+* rddt#rddt rddt-alien {
+  position: absolute;
+  top: 3px;
+  left: 45px;
+  width: 25px;
+  height: 37px;
+  background: url(images/alien.png);
+  opacity: 0;
+  -webkit-transition-duration: 200ms;
+}
+
+* rddt#rddt.loading rddt-alien {
+  opacity: 1;
+}
+
 
 @-webkit-keyframes spin {
   0% {
@@ -151,5 +358,4 @@ rddt_throbber.off {
     -webkit-transform: rotate(360deg);
   }
 }
-
 
