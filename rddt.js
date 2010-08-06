@@ -11,18 +11,40 @@ var Rddt = function(){
     return defaults;
   }
   
+  var object_to_params = function(object){
+    if (!object) { return };
+    var str_pairs = [];
+    var param;
+    for (param in object){
+      str_pairs.push(param + "=" + object[param]);
+    }
+    return str_pairs.join("&");
+  }
+  
   var request = function (path, options){
     options = merge(options, {
       onSuccess: false,
       onFailure: false,
+      onTimeout: false,
       method: 'GET',
-      parameters: false
+      parameters: false,
+      timeout: 15
     });
     var xhr = new XMLHttpRequest();
+    var id = setTimeout(function(){
+      xhr.abort();
+      if(options.onTimeout) options.onTimeout.apply(self, [xhr]);
+    }, options['timeout'] * 1000);
+    
     xhr.onreadystatechange = function(){
       if (xhr.readyState == 4) {
+        clearTimeout(id);
         if (xhr.status == 200) {
-          if(options.onSuccess) options.onSuccess.apply(self, [xhr]);
+          var response_object;
+          if (path.match(/\.json/)) {
+            eval("response_object = " + xhr.responseText);
+          };
+          if(options.onSuccess) options.onSuccess.apply(self, [xhr, response_object]);
         }else{
           if(options.onFailure) options.onFailure.apply(self, [xhr]);
         }
@@ -30,8 +52,12 @@ var Rddt = function(){
     }
     
     xhr.open(options.method, 'http://www.reddit.com/' + path);
-    xhr.send(options.parameters);
-    
+    xhr.setRequestHeader('Accept', "application/json, text/javascript, */*");
+    if(options.method == 'POST' && options.parameters != false){
+      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+      options.parameters['uh'] = this.modhash;
+    }
+    xhr.send(object_to_params(options.parameters));
     
     return xhr;
   }
@@ -48,15 +74,15 @@ var Rddt = function(){
   
   this.checkMessages = function(){
     var request = this.get('message/unread.json', function(xhr){
-      console.log('Success?', xhr);
+      console.log('Messages?', xhr);
     }, function(){
-      console.log('Failure?', xhr);
+      console.log('Messages Failure?', xhr);
     });
   }
   
   this.getModhash = function(){
 
-    var request = this.get('', {
+    this.get('', {
       onSuccess: function(xhr){
         var match;
         if (match = xhr.responseText.match(/<input[^>]+name="uh"[\s]+value="([^"]+)?"[^>]+>/i)) {
@@ -67,7 +93,32 @@ var Rddt = function(){
       },
       onFailure: function(xhr){
         delete this.modhash;
-        console.log('failure', this);
+        console.log("Couldn't get modhash", this.modhash);
+      }
+    });
+
+  }
+  
+  this.getInfo = function(url, page){
+    this.get('api/info.json?url=' + url, {
+      onSuccess:function(xhr, response_json){
+        page.dispatchMessage('rddt:response',response_json);
+      },
+      onFailure:function(xhr){
+        page.dispatchMessage('rddt:response', false);
+      }
+    });
+  }
+  
+  this.vote = function(options){
+    // we need the thing_id the direction note sure about the votehash, is it required?, nope
+    this.post('api/vote.json', {
+      parameters:options,
+      onSuccess:function(xhr, response_json){
+        console.log("I voted!", options, response_json);
+      },
+      onFailure:function(xhr, response_json){
+        console.log("Voting sucks anyway", options, response_json);
       }
     });
   }
@@ -79,32 +130,16 @@ var Rddt = function(){
     
 }
 
-function rddtRequestData(messageEvent){
-  if (messageEvent.name == "rddt:request"){
-    var request = new XMLHttpRequest();
-    var location = messageEvent.message;
-    request.onreadystatechange = function(xhrEvent){
-      if (request.readyState == 4) {
-        var response_object;
-        if (request.status == 404) {
-          //error
-          messageEvent.target.page.dispatchMessage('rddt:response', false);
-        }else{
-          
-          eval("response_object = " + request.responseText);
-          messageEvent.target.page.dispatchMessage('rddt:response',response_object);
-        };
-      };
-    }
-    
-    request.open("GET", 'http://www.reddit.com/api/info.json?url=' + location);
-    request.send();
-    
-  };        
-}
-
 var rddt = new Rddt();
 rddt.init();
 
-safari.application.addEventListener("message", rddtRequestData, false);
+function rddtMessage(messageEvent){
+  if (messageEvent.name == "rddt:request"){
+    rddt.getInfo(messageEvent.message, messageEvent.target.page);
+  }else if (messageEvent.name == 'rddt:vote') {
+    rddt.vote(messageEvent.message);
+  };        
+}
+
+safari.application.addEventListener("message", rddtMessage, false);
 

@@ -52,7 +52,7 @@
   var RddtBar = (function(container){
 
     var submission;
-
+    
     var bar = document.createElement('rddt-bar');
     var vote_panel = document.createElement('rddt-vote-panel');
     var up_button = document.createElement('rddt-upvote');
@@ -63,16 +63,20 @@
     var score_panel = document.createElement('rddt-score-panel');
     score_panel.className = 'rddt-panel';
     var submission_score = document.createElement('rddt-submission-score');
-    var comments = document.createElement('rddt-comments');
+    var comments = document.createElement('a');
+    comments.className = 'rddt-comments';
     var alien = document.createElement('rddt-alien');
 
     var info_panel = document.createElement('rddt-submission-info-panel');
     info_panel.className = 'rddt-panel';
     var info_wrapper = document.createElement('rddt-submission-info');
-    var title = document.createElement('rddt-submission-title');
+    var title = document.createElement('a');
+    title.className = 'rddt-submission-title';
     var time = document.createElement('rddt-time');
-    var user = document.createElement('rddt-user');
-    var subreddit = document.createElement('rddt-sub');
+    var user = document.createElement('a');
+    user.className = 'rddt-user';
+    var subreddit = document.createElement('a');
+    subreddit.className = 'rddt-sub';
 
     var close_btn = document.createElement('rddt-close-bttn');
     var close_inner = document.createElement('rddt-close-bttn-padding');
@@ -101,19 +105,61 @@
     }
 
     var toggleUp = function(e){
-      console.log(this, submission);
+      if (vote_panel.className == 'up') {
+        vote_panel.className = '';
+        safari.self.tab.dispatchMessage("rddt:vote", {
+          dir: 0,
+          id: submission.name
+        });  
+      } else {
+        vote_panel.className = 'up'
+        safari.self.tab.dispatchMessage("rddt:vote", {
+          dir: 1,
+          id: submission.name
+        });  
+      }
     }
 
     var toggleDown = function(e){
-      console.log(this, submission);
+      if (vote_panel.className == 'down') {
+        vote_panel.className = '';
+        safari.self.tab.dispatchMessage("rddt:vote", {
+          dir: 0,
+          id: submission.name
+        });  
+      } else {
+        vote_panel.className = 'down'
+        safari.self.tab.dispatchMessage("rddt:vote", {
+          dir: -1,
+          id: submission.name
+        });  
+      }
     }
 
     this.up_button = up_button;
     this.down_button = down_button;
 
     this.setSubmission = function(new_submission){
+      
+      
       submission = new_submission;
-
+      
+      
+      var permalink_url = 'http://www.reddit.com' + submission.permalink;
+      var subreddit_url = 'http://www.reddit.com/r/' + submission.subreddit;
+      var user_url = 'http://www.reddit.com/user/' + submission.user;
+      var submission_url = submission.url;
+      
+      console.log("Submission", submission, submission.likes);
+      
+      if (submission.likes === true) {
+        vote_panel.className = 'up';
+      } else if(submission.likes === false) {
+        vote_panel.className = 'down';
+      } else {
+        vote_panel.className = '';
+      }
+      
       vote_panel.appendChild(up_button);
       vote_panel.appendChild(down_button);
 
@@ -125,14 +171,18 @@
 
       submission_score.appendChild(score_txt);
       comments.appendChild(comments_txt);
+      comments.href = permalink_url;
 
       title.appendChild(document.createTextNode(submission.title));
       title.title = submission.title;
+      title.href = submission_url;
 
       var td = new TimeDifference(submission.created_utc * 1000);
       time.appendChild(document.createTextNode(td.humanReadable()));
       user.appendChild(document.createTextNode(submission.author));
+      user.href = user_url;
       subreddit.appendChild(document.createTextNode(submission.subreddit));
+      subreddit.href = subreddit_url;
 
       bar.appendChild(info_panel);
 
@@ -145,7 +195,6 @@
 
   });
   
-
   document.addEventListener('DOMContentLoaded', function(){
 
     var b = document.getElementsByTagName('body')[0];
@@ -177,19 +226,22 @@
     
     function getRddtData(event){
       if (event.name == "rddt:response") {
-        var listing = event.message;
-        var submissions = listing.data.children;
-        if(submissions.length > 0){
-          var latest = listing.data.children[0].data;
-          bar.setSubmission(latest);
-          var count = latest.num_comments;
-        }else{
-          console.log('no listings');
+        if(event.message){
+          var listing = event.message;
+          var submissions = listing.data.children;
+          if(submissions.length > 0){
+            var latest = listing.data.children[listing.data.children.length-1].data;
+            bar.setSubmission(latest);
+            var count = latest.num_comments;
+          }else{
+            console.log('no listings');
+          }
+          setTimeout(function(){
+            rddt.className = '';
+          }, 100)
+        } else {
+          console.log("Failure people!");
         }
-
-        setTimeout(function(){
-          rddt.className = '';
-        }, 100)
       };
     }
 

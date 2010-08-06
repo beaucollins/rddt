@@ -3,6 +3,14 @@ rddt-shim {
   height: 48px;
 }
 
+rddt#rddt a {
+  font-family: Helvetica !important;
+  color: #FFF !important;
+  text-decoration: none !important;
+  border: none !important;
+  background: none !important;
+  font-weight: normal !important;
+}
 
 * rddt#rddt {
   line-height: 1.2em !important;
@@ -71,12 +79,24 @@ rddt#rddt * {
   background-color: rgba(255,255,255,0.5);
 }
 
+* rddt#rddt rddt-upvote:active, * rddt#rddt rddt-downvote:active {
+  background-color: rgba(255,255,255,0.9);
+}
+
 * rddt#rddt rddt-upvote {
   background-image: url(images/up_off.png);
 }
 
+* rddt#rddt .up rddt-upvote {
+  background-image: url(images/up_on.png);
+}
+
 * rddt#rddt rddt-downvote {
   background-image: url(images/down_off.png);
+}
+
+* rddt#rddt .down rddt-downvote {
+  background-image: url(images/down_on.png);
 }
 
 /* dark blue gloss */
@@ -145,7 +165,7 @@ rddt#rddt * {
 }
 
 * rddt#rddt rddt-close-bttn-padding, * rddt#rddt.off rddt-close-bttn:hover rddt-close-bttn-padding {
-  -webkit-transform: rotate(-180deg);
+  -webkit-transform: rotate(180deg);
   -webkit-transition-duration: 200ms;
 }
 
@@ -211,95 +231,98 @@ rddt#rddt * {
   border: none;
 }
 
-* rddt#rddt rddt-submission-title {
-  font-size: 12px;
+* rddt#rddt .rddt-submission-title {
+  font-weight: bold !important;
+  font-size: 12px !important;
   padding: 1px 5px !important;
   overflow: hidden;
   white-space: nowrap;
-  border-radius: 1em;
+  border-radius: 1em !important;
   text-overflow: ellipsis;
   cursor: pointer;
-  display: block;
+  display: block !important;
 }
 
-* rddt#rddt rddt-submission-title:hover {
-  background: -webkit-gradient(linear, left top, left bottom, from(#365A75), to(#1A2B38));
+* rddt#rddt .rddt-submission-title:hover {
+  background: -webkit-gradient(linear, left top, left bottom, from(#365A75), to(#1A2B38)) !important;
 }
 
-* rddt#rddt rddt-submission-title:active {
-  background: -webkit-gradient(linear, left top, left bottom, to(#243F58), from(#1A2B38));
-  -webkit-box-shadow: 0 1px 0 rgba(255,255,255,0.1);
+* rddt#rddt .rddt-submission-title:active {
+  background: -webkit-gradient(linear, left top, left bottom, to(#243F58), from(#1A2B38)) !important;
+  -webkit-box-shadow: 0 1px 0 rgba(255,255,255,0.1) !important;
 }
 
-* rddt#rddt rddt-comments {
-  font-weight: bold;
-  border-radius: 1em;
+* rddt#rddt .rddt-comments {
+  font-weight: bold !important;
+  border-radius: 1em !important;
   padding: 1px 5px !important;
   margin: 0 5px !important;
-  display: inline-block;
-  font-size: 11px;
-  background: url(images/comments_icon.png) no-repeat 3px center;
+  display: inline-block !important;
+  font-size: 11px !important;
+  background: url(images/comments_icon.png) no-repeat 3px center !important;
   padding-left: 21px !important;
   cursor: pointer;
 }
 
-* rddt#rddt.loading rddt-comments {
-  display: none;
+* rddt#rddt.loading .rddt-comments {
+  display: none !important;
 }
 
-* rddt#rddt rddt-comments:hover {
+* rddt#rddt .rddt-comments:hover {
   background: url(images/comments_icon.png) no-repeat 3px center,
-              -webkit-gradient(linear, left top, left bottom, from(#25415A), to(#111C25));
+              -webkit-gradient(linear, left top, left bottom, from(#25415A), to(#111C25)) !important;
 
 }
 
-* rddt#rddt rddt-comments:active {
+* rddt#rddt .rddt-comments:active {
   background: url(images/comments_icon.png) no-repeat 3px center,
-              -webkit-gradient(linear, left top, left bottom, to(#25415A), from(#111C25));
+              -webkit-gradient(linear, left top, left bottom, to(#25415A), from(#111C25)) !important;
+  -webkit-box-shadow: 0 1px 0 rgba(255,255,255,0.1) !important;
+}
+
+* rddt#rddt .rddt-user {
+  font-weight: bold !important;
+  border-radius: 1em !important;
+  padding: 1px 5px !important;
+  display: inline-block !important;
+  font-size: 11px !important;
+  background: url(images/user_icon.png) no-repeat 3px 1px !important;
+  padding-left: 17px !important;
+  cursor: pointer !important;
+}
+
+* rddt#rddt .rddt-user:hover {
+  background: url(images/user_icon.png) no-repeat 3px 1px,
+              -webkit-gradient(linear, left top, left bottom, from(#25415A), to(#111C25)) !important;
+
+}
+
+* rddt#rddt .rddt-user:active {
+  background: url(images/user_icon.png) no-repeat 3px 1px,
+              -webkit-gradient(linear, left top, left bottom, to(#25415A), from(#111C25)) !important;
   -webkit-box-shadow: 0 1px 0 rgba(255,255,255,0.1);
 }
 
-* rddt#rddt rddt-user {
-  border-radius: 1em;
+* rddt#rddt .rddt-sub {
+  font-weight: bold !important;
+  border-radius: 1em !important;
   padding: 1px 5px !important;
-  display: inline-block;
-  font-size: 11px;
-  background: url(images/user_icon.png) no-repeat 3px 1px;
+  display: inline-block !important;
+  font-size: 11px !important;
+  background: url(images/reddit_icon.png) no-repeat 3px 1px !important;
   padding-left: 17px !important;
-  cursor: pointer;
+  cursor: pointer !important;
 }
 
-* rddt#rddt rddt-user:hover {
-  background: url(images/user_icon.png) no-repeat 3px 1px,
-              -webkit-gradient(linear, left top, left bottom, from(#25415A), to(#111C25));
-
-}
-
-* rddt#rddt rddt-user:active {
-  background: url(images/user_icon.png) no-repeat 3px 1px,
-              -webkit-gradient(linear, left top, left bottom, to(#25415A), from(#111C25));
-  -webkit-box-shadow: 0 1px 0 rgba(255,255,255,0.1);
-}
-
-* rddt#rddt rddt-sub {
-  border-radius: 1em;
-  padding: 1px 5px !important;
-  display: inline-block;
-  font-size: 11px;
-  background: url(images/reddit_icon.png) no-repeat 3px 1px;
-  padding-left: 17px !important;
-  cursor: pointer;
-}
-
-* rddt#rddt rddt-sub:hover {
+* rddt#rddt .rddt-sub:hover {
   background: url(images/reddit_icon.png) no-repeat 3px 1px,
-              -webkit-gradient(linear, left top, left bottom, from(#25415A), to(#111C25));
+              -webkit-gradient(linear, left top, left bottom, from(#25415A), to(#111C25)) !important;
 
 }
 
-* rddt#rddt rddt-sub:active {
+* rddt#rddt .rddt-sub:active {
   background: url(images/reddit_icon.png) no-repeat 3px 1px,
-              -webkit-gradient(linear, left top, left bottom, to(#25415A), from(#111C25));
+              -webkit-gradient(linear, left top, left bottom, to(#25415A), from(#111C25)) !important;
   -webkit-box-shadow: 0 1px 0 rgba(255,255,255,0.1);
 }
 
