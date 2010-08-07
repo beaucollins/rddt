@@ -59,13 +59,12 @@
     var down_button = document.createElement('rddt-downvote');
     var throbber = document.createElement('rddt-throbber');
     var alien = document.createElement('rddt-alien');
-
+    
     var score_panel = document.createElement('rddt-score-panel');
     score_panel.className = 'rddt-panel';
     var submission_score = document.createElement('rddt-submission-score');
     var comments = document.createElement('a');
     comments.className = 'rddt-comments';
-    var alien = document.createElement('rddt-alien');
 
     var info_panel = document.createElement('rddt-submission-info-panel');
     info_panel.className = 'rddt-panel';
@@ -77,7 +76,13 @@
     user.className = 'rddt-user';
     var subreddit = document.createElement('a');
     subreddit.className = 'rddt-sub';
-
+    
+    var message_panel = document.createElement('rddt-message-panel');
+    var message_link = document.createElement('a');
+    message_link.className = 'rddt-message-bttn';
+    var message_image = document.createElement('rddt-envelope');
+    
+    
     var close_btn = document.createElement('rddt-close-bttn');
     var close_inner = document.createElement('rddt-close-bttn-padding');
 
@@ -97,9 +102,18 @@
     info_wrapper.appendChild(subreddit);
     info_panel.appendChild(info_wrapper);
 
+    message_link.appendChild(message_image);
+    message_link.href = 'http://www.reddit.com/message/unread';
+    message_link.addEventListener('click', function(e){
+      safari.self.tab.dispatchMessage("rddt:clicked_envelope");
+    });
+    
+    message_panel.appendChild(message_link);
+    
+    bar.appendChild(message_panel);
     bar.appendChild(vote_panel);
     bar.appendChild(score_panel);
-
+    
     var toggle = function(e){
       container.className = (container.className == '' ? 'off' : '');
     }
@@ -150,8 +164,6 @@
       var user_url = 'http://www.reddit.com/user/' + submission.user;
       var submission_url = submission.url;
       
-      console.log("Submission", submission, submission.likes);
-      
       if (submission.likes === true) {
         vote_panel.className = 'up';
       } else if(submission.likes === false) {
@@ -191,6 +203,19 @@
       close_btn.addEventListener('click', toggle);
       up_button.addEventListener('click', toggleUp);
       down_button.addEventListener('click', toggleDown);
+    }
+    
+    this.unreadMessages = function(){
+      message_panel.className = 'on';
+    }
+    
+    this.noMessages = function(){
+      message_panel.className = '';
+    }
+    
+    this.finishedLoading = function(){
+      alien.parentNode.removeChild(alien);
+      throbber.parentNode.removeChild(throbber);
     }
 
   });
@@ -238,16 +263,32 @@
           }
           setTimeout(function(){
             rddt.className = '';
+            
+            setTimeout(function(){
+              bar.finishedLoading();
+            }, 500);
+            
           }, 100)
         } else {
           console.log("Failure people!");
         }
+      } else if (event.name == 'rddt:unread') {
+        console.log('rddt:unread', event.message);
+        if (event.message && event.message.data.children.length > 0) {
+          bar.unreadMessages();
+        }else{
+          bar.noMessages();
+        };
       };
     }
 
     safari.self.addEventListener("message", getRddtData, false);
-
+    
     safari.self.tab.dispatchMessage("rddt:request", url);  
+    safari.self.tab.dispatchMessage("rddt:unread");
+    setInterval(function(){
+      safari.self.tab.dispatchMessage("rddt:unread");
+    }, 30 * 1000); //this doesn't actually cause any HTTP requests
 
   });
 

@@ -110,6 +110,38 @@ var Rddt = function(){
     });
   }
   
+  this.getMessages = function(){
+    console.log("Getting messages:", new Date());
+    this.get('message/unread.json', {
+      onSuccess:function(xhr, response_json){
+        console.log('messages', response_json);
+        this.messages = response_json;
+      },
+      onFailure:function(xhr, response_json){
+        
+      }
+    });
+  };
+  
+  this.clearMessages = function(){
+    this.messages = null;
+    this.stopPolling();
+    setTimeout(function(){
+      self.pollMessages();
+    }, 10000);
+  }
+  
+  this.pollMessages = function(){
+    this.getMessages();
+    this.pollId = setInterval(function(){
+      self.getMessages();
+    }, 2 * 60 * 1000); // 2 minutes, is that sane?
+  }
+  
+  this.stopPolling = function(){
+    clearInterval(this.pollId)
+  };
+  
   this.vote = function(options){
     // we need the thing_id the direction note sure about the votehash, is it required?, nope
     this.post('api/vote.json', {
@@ -126,6 +158,7 @@ var Rddt = function(){
   this.init = function(){
     // retrieve our modhash!
     this.getModhash();
+    this.pollMessages();
   };
     
 }
@@ -138,6 +171,10 @@ function rddtMessage(messageEvent){
     rddt.getInfo(messageEvent.message, messageEvent.target.page);
   }else if (messageEvent.name == 'rddt:vote') {
     rddt.vote(messageEvent.message);
+  }else if (messageEvent.name == 'rddt:unread') {
+    messageEvent.target.page.dispatchMessage('rddt:unread', rddt.messages);
+  }else if (messageEvent.name == 'rddt:clicked_envelope'){
+    rddt.clearMessages();
   };        
 }
 

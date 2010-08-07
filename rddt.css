@@ -44,23 +44,53 @@ rddt#rddt * {
 * rddt#rddt .rddt-panel {
   display: table-cell;
   text-align: center;
+  position: relative !important;
 }
 
-* rddt#rddt rddt-vote-panel {
+* rddt#rddt rddt-vote-panel, * rddt#rddt rddt-message-panel {
   vertical-align: middle;
   display: table-cell;
   position: relative;
   min-width: 40px;
   text-align: center;
-  min-height: 48px;
-  max-height: 48px;
-  height: 48px;
+  min-height: 44px;
+  max-height: 44px;
+  height: 44px;
+}
+
+* rddt#rddt rddt-message-panel, * rddt#rddt.loading rddt-message-panel.on {
+  padding: 0;
+  min-width: 0;
+  max-width: 0;
+  border: none;
+  overflow: hidden;
+  -webkit-transition-duration: 200ms;
+}
+
+* rddt#rddt rddt-message-panel.on {
+  min-width: 28px;
+  max-width: 28px;
+  border-right: 1px solid rgba(0,0,0,0.1);
+}
+
+* rddt#rddt a.rddt-message-bttn {
+  display: table-cell !important;
+  display: block !important;
+  height: 100%;
+  border-right: 1px solid rgba(255,255,255,0.1);
+}
+
+* rddt#rddt rddt-envelope {
+  width: 28px;
+  height: 100%;
+  background: url(images/envelope_orangered.png) no-repeat center center;
+  display: block;
 }
 
 * rddt#rddt rddt-upvote, * rddt#rddt rddt-downvote {
   width: 16px;
   height: 16px;
-  margin: 2px auto !important;
+  margin: 4px auto !important;
   border-radius: 1em;
   background: no-repeat center center;
   cursor: pointer;
@@ -102,8 +132,8 @@ rddt#rddt * {
 /* dark blue gloss */
 * rddt#rddt .rddt-panel {
   border-left: 1px solid rgba(0,0,0,0.1);
-  min-height: 48px;
-  max-height: 48px;
+  min-height: 44px;
+  max-height: 44px;
   vertical-align: middle;
   background: -webkit-gradient(linear, 0 0, 0 2, from(rgba(0,0,0,0.5)), to(rgba(0,0,0,0))), /* inner shadow */
               -webkit-gradient(linear, left top, left bottom, from(#5287B2), to(#1A2B38), color-stop(0.5, #447093), color-stop(0.5, #365A75)), /* blue gloss */
@@ -111,6 +141,12 @@ rddt#rddt * {
   -webkit-transition-duration: 200ms;
   -webkit-transition-property: max-width;
   overflow: hidden;
+}
+
+* rddt#rddt a.rddt-message-bttn:hover {
+  background: -webkit-gradient(linear, 0 0, 0 2, from(rgba(0,0,0,0.5)), to(rgba(0,0,0,0))), /* inner shadow */
+              -webkit-gradient(linear, left top, left bottom, from(#5287B2), to(#1A2B38), color-stop(0.5, #447093), color-stop(0.5, #365A75)), /* blue gloss */
+              #365A75 !important;
 }
 
 * rddt#rddt .rddt-panel:nth-child(2) {
@@ -129,6 +165,7 @@ rddt#rddt * {
 
 /* light blue gloss */
 * rddt#rddt rddt-vote-panel,
+* rddt#rddt rddt-message-panel,
 * rddt#rddt rddt-close-bttn:hover {
   background: -webkit-gradient(linear, 0 0, 0 2, from(rgba(0,0,0,0.5)), to(rgba(0,0,0,0))), /* inner shadow */
               -webkit-gradient(linear, left top, left bottom, from(#CEE3F6), to(#5E9ACB), color-stop(0.5, #A1C6E5), color-stop(0.5, #81B1D9)),
@@ -212,7 +249,7 @@ rddt#rddt * {
   text-align: left;
   text-shadow: 0 -1px 0 rgba(0,0,0,0.9);
   font-weight: bold;
-  padding: 5px !important;
+  padding: 2px 5px !important;
   white-space: nowrap;
   -webkit-transition-duration: 200ms;
 }
@@ -338,7 +375,7 @@ rddt#rddt * {
 * rddt#rddt rddt-throbber {
   position: absolute;
   top: 13px;
-  left: 8px;
+  right: 7px;
   width: 22px;
   height: 22px;
   background: url(images/throbber.png);
@@ -360,7 +397,7 @@ rddt#rddt * {
 * rddt#rddt rddt-alien {
   position: absolute;
   top: 3px;
-  left: 45px;
+  left: 8px;
   width: 25px;
   height: 37px;
   background: url(images/alien.png);
